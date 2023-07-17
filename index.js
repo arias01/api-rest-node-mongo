@@ -17,6 +17,16 @@ app.use(cors());
 app.use(express.json());
 
 //Creating routes
+app.get("/", (req,res)=>{
+    return res.status(200).send("<h1>It's Working</h1>");
+})
+
+app.get("/testing", (req,res)=>{
+    return res.status(200).send({
+        name : "Albert Arias",
+        birthdayAge : 1995,
+    });
+})
 
 //Creating server en listening 
 app.listen(port, ()=>{
