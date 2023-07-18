@@ -12,16 +12,17 @@ const test = (req, res) => {
 
 
 const allArticles = (req,res)=>{
-
-    return res.status(200).json([{
-        name: "Banana",
-        price: 52.36
-    },
-    {
-        name: "Pencil",
-        price: 14.36
-    }]);
-
+    try{
+        Article.find().then((v)=>{
+            return res.status(200).json(v);
+        })
+    }catch(e){
+        return res.status(400).json({
+            status: "Error",
+            content: "Error Finding data",
+            other: e.message
+        });
+    }
 }
 
 const saveArticle = (req,res)=>{
@@ -35,9 +36,6 @@ const saveArticle = (req,res)=>{
      if(validate_title &&  !validate_content){
         throw new Error("Validation Error");
      }
-
-     
-
 
     }catch(e){
 
