@@ -17,6 +17,11 @@ app.use(cors());
 app.use(express.json());
 
 //Creating routes
+
+const article_router = require("./routes/article");
+
+app.use("/api",article_router);
+
 app.get("/", (req,res)=>{
     return res.status(200).send("<h1>It's Working</h1>");
 })
