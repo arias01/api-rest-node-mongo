@@ -23,4 +23,5 @@ const ArticleSchema = Schema({
     }
 })
 
+
 module.exports = model("Article", ArticleSchema,"articles")
