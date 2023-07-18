@@ -1,4 +1,8 @@
 const validator = require("validator");
+const Article= require("../models/articles")
+const { connection } = require("../database/connection")
+
+
 const test = (req, res) => {
 
     return res.status(200).json({
@@ -32,6 +36,8 @@ const saveArticle = (req,res)=>{
         throw new Error("Validation Error");
      }
 
+     
+
 
     }catch(e){
 
@@ -43,16 +49,23 @@ const saveArticle = (req,res)=>{
     }
 
     //create object
-
+    let article = new Article(parameters);
     //assign values to the object model
-
     //save the article to the database 
+    try{
+        article.save().then((v)=>{
+            //return the result
+        return res.status(200).json(v);
+        });
+    }catch(e){
+        return res.status(400).json({
+            status: "Error",
+            content: "Error Saving data",
+            other: e.message
+        });
+    }
 
-    //return the result
-    return res.status(200).json({
-        state: "Ok",
-        parameters
-    })
+   
 }
 
 
