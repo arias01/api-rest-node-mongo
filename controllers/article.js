@@ -12,17 +12,15 @@ const test = (req, res) => {
 
 
 const allArticles = (req,res)=>{
-    try{
         Article.find().then((v)=>{
             return res.status(200).json(v);
+        }).catch((e)=>{
+            return res.status(400).json({
+                status: "Error",
+                content: "Error Finding data",
+                other: e.message
+            });
         })
-    }catch(e){
-        return res.status(400).json({
-            status: "Error",
-            content: "Error Finding data",
-            other: e.message
-        });
-    }
 }
 
 const saveArticle = (req,res)=>{
@@ -50,22 +48,17 @@ const saveArticle = (req,res)=>{
     let article = new Article(parameters);
     //assign values to the object model
     //save the article to the database 
-    try{
         article.save().then((v)=>{
             //return the result
         return res.status(200).json(v);
+        }).catch((e)=>{
+            return res.status(400).json({
+                status: "Error",
+                content: "Error Saving data",
+                other: e.message
+            });
         });
-    }catch(e){
-        return res.status(400).json({
-            status: "Error",
-            content: "Error Saving data",
-            other: e.message
-        });
-    }
-
-   
 }
-
 
 module.exports={
     test,
