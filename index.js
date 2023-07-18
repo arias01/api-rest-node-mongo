@@ -15,6 +15,7 @@ app.use(cors());
 
 //Converting body to js object auto
 app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 
 //Creating routes
 

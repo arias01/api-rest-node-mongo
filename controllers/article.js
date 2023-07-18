@@ -1,3 +1,4 @@
+const validator = require("validator");
 const test = (req, res) => {
 
     return res.status(200).json({
@@ -21,8 +22,25 @@ const allArticles = (req,res)=>{
 
 const saveArticle = (req,res)=>{
     //get the parameters from post to save
-
+    let parameters = req.body;
     //validate data
+    try{
+        let validate_title = !validator.isEmpty(parameters.title) && validator.isLength(parameters.title,{min:5, max:50});
+        let validate_content= !validator.isEmpty(parameters.content);
+
+     if(validate_title &&  !validate_content){
+        throw new Error("Validation Error");
+     }
+
+
+    }catch(e){
+
+        return res.status(400).json({
+            status: "Error",
+            content: "No valid data",
+            other: e.message
+        });
+    }
 
     //create object
 
@@ -32,7 +50,8 @@ const saveArticle = (req,res)=>{
 
     //return the result
     return res.status(200).json({
-        state: "Ok"
+        state: "Ok",
+        parameters
     })
 }
 
