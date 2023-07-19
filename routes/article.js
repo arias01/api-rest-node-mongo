@@ -6,7 +6,9 @@ const ArticleController = require("../controllers/article");
 //Test Router
 router.get("/test-router", ArticleController.test)
 
-router.get("/all-articles",ArticleController.allArticles)
+router.get("/all-articles/:last?",ArticleController.allArticles)
+
+router.get("/article/:id",ArticleController.oneArticle)
 
 router.post("/save", ArticleController.saveArticle)
 

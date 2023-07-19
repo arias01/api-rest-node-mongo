@@ -1,6 +1,7 @@
 const validator = require("validator");
 const Article= require("../models/articles")
-const { connection } = require("../database/connection")
+const { connection } = require("../database/connection");
+const articles = require("../models/articles");
 
 
 const test = (req, res) => {
@@ -11,8 +12,18 @@ const test = (req, res) => {
 }
 
 
-const allArticles = (req,res)=>{
-        Article.find().then((v)=>{
+const  allArticles = (req,res)=>{
+       let _articles=  Article.find();
+
+       _articles.sort({date: -1})
+       console.log(req.params);
+       if( req.params.last)
+       {
+        _articles.limit(req.params.last)
+       }
+
+
+       _articles.then((v)=>{
             return res.status(200).json(v);
         }).catch((e)=>{
             return res.status(400).json({
@@ -20,7 +31,22 @@ const allArticles = (req,res)=>{
                 content: "Error Finding data",
                 other: e.message
             });
-        })
+        });
+}
+
+
+const oneArticle = (req,res)=>{
+    let _id = req.params.id;
+
+    Article.findById(_id).then((v)=>{
+        return res.status(200).json(v);
+    }).catch((e)=>{
+        return res.status(400).json({
+            status: "Error",
+            content: "Error Finding data",
+            other: e.message
+        });
+    })
 }
 
 const saveArticle = (req,res)=>{
@@ -63,5 +89,6 @@ const saveArticle = (req,res)=>{
 module.exports={
     test,
     allArticles,
-    saveArticle
+    saveArticle,
+    oneArticle
 }
